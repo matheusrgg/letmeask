@@ -6,18 +6,25 @@ import googleIconImg from "../assets/images/google-icon.svg"
 
 import '../styles/auth.scss'
 import { Button } from "../components/Button"
+import { useContext } from "react"
+import { AuthContext } from "../contexts/AuthContext"
+
+
 
 export function NewRoom(){
   
+    const {user} = useContext(AuthContext)
 
         return(
             <div id="page-auth">
                 <aside>
                     <img src={illustrationImg} alt="Illustração simbolizando perguntas" />
+                    {/* <h1>{user?.name}</h1> */}
                     <strong>Crie sala de Q&amp; A ao-vivo</strong>
                     <p>Tire as dúvidas da sua audiência em tempo-real</p>
                 </aside>
                 <main>
+                   
                     <div className="main-content">
                         <img src={logoImg} alt="logoletmeask" />
                         <h2>Criar uma nova sala</h2>
