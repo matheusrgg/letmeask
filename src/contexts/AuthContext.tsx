@@ -26,6 +26,10 @@ export function AuthContextProvider(props : AuthContextProviderProps){
           //nosso estado
   const [user, setUser] = useState<User>();
 
+
+  //hook
+  //vai fica observando se houve alguma alteraçào no estado de autentificação do usuário
+  //se ele da um f5 ou fecha a página, ai a gente fica observando esse evento
   useEffect(()=>{
     const unsubscribe = auth.onAuthStateChanged(user=>{
       if(user){
