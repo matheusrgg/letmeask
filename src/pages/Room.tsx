@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useParams} from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
@@ -10,19 +10,78 @@ import { database } from '../services/firebase';
 
 import '../styles/room.scss'
 
+type FirebaseQuestions = Record<string,{
+  author:{
+    name: string;
+    avatar: string;
+  }
+  content:string;
+  isAnswerd:boolean;
+  isHighlighted: boolean;
+
+}>
+
+type Question = {
+  id: string;
+  author: {
+    name: string;
+    avatar: string;
+  }
+  content: string;
+  isAnswered: boolean;
+  isHighlighted: boolean;
+}
 
 type RoomParams = {
-  id:string ;
+  id:string | undefined ;
 }
 
 export function Room() {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const params = useParams<RoomParams>();
-  const [newQuestion, setNewQuestion] = useState('');
-
+  const [newQuestion, setNewQuestion] = useState("");
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [title, setTitle] = useState('');
 
 
   const roomId = params.id;
+
+
+  useEffect(()=>{
+    const roomRef = database.ref(`rooms/${roomId}`);
+
+    
+    //documentação do firebase
+    //estratégia de event listner
+    //.val é da API do firebase tb 
+    roomRef.on('value', room =>{
+      // console.log(room.val());
+      const databaseRoom = room.val();
+      const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
+
+      const parsedQuestions = Object.entries(firebaseQuestions).map(([key,value]) =>{
+        return {
+          id: key,
+          content: value.content,
+          author: value.author,
+          isHighlighted: value.isHighlighted,
+          isAnswered: value.isAnswerd,
+        }
+      })
+
+
+
+      setTitle(databaseRoom.title);
+      setQuestions(parsedQuestions);
+
+
+
+
+
+
+    })
+
+  }, [roomId]);
 
 async function handleSendQuestion(event: FormEvent){
   event.preventDefault()
@@ -58,8 +117,8 @@ async function handleSendQuestion(event: FormEvent){
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
  
-          {/* <RoomCode code={params.id} /> */}
-         <RoomCode code="12344" /> 
+          {params.id && <RoomCode code={params.id} /> }
+         {/* <RoomCode code="12344" />  */}
          </div>
       </header>
 
@@ -67,8 +126,8 @@ async function handleSendQuestion(event: FormEvent){
 
 
         <div className="room-title">
-          <h1>Sala React</h1>
-          <span>4 perguntas</span>
+          <h1>Sala {title}</h1>
+          {questions.length > 0 && <span>{questions.length} perguntas</span>}
         </div>
 
 
@@ -94,6 +153,8 @@ async function handleSendQuestion(event: FormEvent){
             <Button type='submit' disabled={!user} >Enviar Pergunta</Button>
           </div>
         </form>
+
+        {JSON.stringify(questions)}
 
 
       </main>
