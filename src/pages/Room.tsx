@@ -57,7 +57,7 @@ export function Room() {
 
   }
 
-  async function handleLikeQuestion(questionId:string, likeId:string){
+  async function handleLikeQuestion(questionId:string, likeId:string | undefined){
     if(likeId){
       await database.ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`).remove()
     }else{
@@ -130,7 +130,7 @@ export function Room() {
 
                    type="button"
                    aria-label="Marcar como gostei"
-                   onClick={()=> handleLikeQuestion(question.id, question.likeId)}
+                   onClick=  { () => handleLikeQuestion(question.id, question.likeId)}
 
 
                    >
