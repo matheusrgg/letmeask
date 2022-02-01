@@ -8,7 +8,7 @@ type FirebaseQuestions = Record<string,{
     avatar: string;
   }
   content:string;
-  isAnswerd:boolean;
+  isAnswered:boolean;
   isHighlighted: boolean;
   likes:Record<string, {
     authorId:string;
@@ -54,7 +54,7 @@ export function useRoom(roomId:string | undefined){
               content: value.content,
               author: value.author,
               isHighlighted: value.isHighlighted, 
-              isAnswered: value.isAnswerd,
+              isAnswered: value.isAnswered,
               likeCount:Object.values(value.likes ?? {}).length,
               //some só retorna true ou false
               //funcionalidade de like
