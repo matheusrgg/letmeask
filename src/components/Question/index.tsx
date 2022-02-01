@@ -24,6 +24,7 @@ export function Question({
     isHighlighted = false
 }: QuestionProps) {
 
+    // console.log(author)
     return (
         <div className={classNames(
             'question',

@@ -36,7 +36,6 @@ export function Room() {
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
 
-
     if (newQuestion.trim() == '') {
       return;
     }
@@ -48,16 +47,15 @@ export function Room() {
     const question = {
       content: newQuestion,
       author: {
-        name: user?.name,
+        name: user.name,
+        avatar: user.avatar,
       },
       isHighlighted: false,
       isAnswered: false
     };
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
-
     setNewQuestion('');
-
   }
 
   async function handleLikeQuestion(questionId: string, likeId: string | undefined) {
@@ -70,6 +68,10 @@ export function Room() {
 
     }
   }
+
+  // console.log(user)
+  console.log('questions aqui',questions)
+  console.log('useraqui', user)
 
   return (
     <div id="page-room">
@@ -108,6 +110,7 @@ export function Room() {
         </form>
 
         {/* {JSON.stringify(questions)} */}
+  
         <div className="question-list">
           {questions.map(question => {
             return (

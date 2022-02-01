@@ -22,7 +22,19 @@ const firebaseConfig = {
 
 // appId: process.env.REACT_APP_APP_ID
 
+apiKey: "AIzaSyDp_jK6FurCd5EnhR-2M3W28KRWHlaBfcA",
 
+authDomain: "letmeask-d93d4.firebaseapp.com",
+
+databaseURL: "https://letmeask-d93d4-default-rtdb.firebaseio.com",
+
+projectId: "letmeask-d93d4",
+
+storageBucket: "letmeask-d93d4.appspot.com",
+
+messagingSenderId: "431946697405",
+
+appId: "1:431946697405:web:ce02efed128178b8dc45d4"
     
   };
 

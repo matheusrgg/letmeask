@@ -35,7 +35,7 @@ export function AdminRoom() {
 
   const { title, questions } = useRoom(roomId);
 
-  console.log(questions)
+  // console.log(questions)
 
   // ------ Princiapis Funções
 
